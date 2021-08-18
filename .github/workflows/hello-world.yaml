@@ -57,21 +57,23 @@ jobs:
           name: build-code
           path: .
       - name: Build Docker image
-        run: chmod +x ci/build-docker.sh 
-        run: export GIT_COMMIT="GA-$GITHUB_SHA" 
+        run: chmod +x ci/build-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/build-docker.sh
       - name: Push Docker image
-        run: chmod +x ci/push-docker.sh 
-        run: export GIT_COMMIT="GA-$GITHUB_SHA"
+        run: chmod +x ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/build-docker.sh
   Component-test:
     runs-on: ubuntu-latest
-    container: gradle:6-jdk11
     env:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
     needs: Docker-image
     steps:
+      - name: Download code
+        uses: actions/download-artifact@v2
+          with:
+            name: code
+            path: .
       - name: Component test
-        run: chmod +x ci/component-test.sh
+        run: chmod +x ci/component-test.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/component-test.sh
 
     
     

@@ -59,7 +59,7 @@ jobs:
       - name: Build Docker image
         run: chmod +x ci/build-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/build-docker.sh
       - name: Push Docker image
-        run: chmod +x ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/build-docker.sh
+        run: chmod +x ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/push-docker.sh
   Component-test:
     runs-on: ubuntu-latest
     env:

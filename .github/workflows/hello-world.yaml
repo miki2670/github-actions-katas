@@ -21,7 +21,7 @@ jobs:
     needs: Clone-down
     steps:
       - name: Download Repo
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: code
           path: .
@@ -33,7 +33,7 @@ jobs:
     needs: Clone-down
     steps:
       - name: Download Repo
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: code
           path: .
@@ -49,7 +49,7 @@ jobs:
     needs: [Build,Test]
     steps:
       - name: Download Build Code
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: code
           path: .
@@ -62,7 +62,7 @@ jobs:
     needs: Docker-image
     steps:
       - name: Download code
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: code
           path: .

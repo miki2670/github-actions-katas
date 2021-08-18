@@ -44,6 +44,9 @@ jobs:
   Docker-image:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
+    env:
+      docker_username: miki2670
+      docker_password: 39097f8e-5576-41f3-8037-ad7431c0e39e
     needs:
       - Build
       - Test

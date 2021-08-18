@@ -69,9 +69,9 @@ jobs:
     steps:
       - name: Download code
         uses: actions/download-artifact@v2
-          with:
-            name: code
-            path: .
+        with:
+          name: code
+          path: .
       - name: Component test
         run: chmod +x ci/component-test.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/component-test.sh
 

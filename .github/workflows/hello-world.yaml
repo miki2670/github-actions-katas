@@ -50,9 +50,9 @@ jobs:
     steps:
       - name: Download Build Code
         uses: actions/download-artifact@v2
-          with:
-            name: build-code
-            path: .
+        with:
+          name: build-code
+          path: .
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:

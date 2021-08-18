@@ -1,5 +1,8 @@
 name: Java CI
 on: push
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
 jobs:
   Clone-down:
     runs-on: ubuntu-latest
@@ -39,22 +42,16 @@ jobs:
       - name: Upload Build Code
         uses: actions/upload-artifact@v2
         with:
-          name: build-code
+          name: code
           path: .
   Docker-image:
     runs-on: ubuntu-latest
-    container: gradle:6-jdk11
-    env:
-      docker_username: ${{ secrets.DOCKER_USERNAME }}
-      docker_password: ${{ secrets.DOCKER_PASSWORD }}
-    needs:
-      - Build
-      - Test
+    needs: [Build,Test]
     steps:
       - name: Download Build Code
         uses: actions/download-artifact@v2
         with:
-          name: build-code
+          name: code
           path: .
       - name: Build Docker image
         run: chmod +x ci/build-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/build-docker.sh
@@ -62,9 +59,6 @@ jobs:
         run: chmod +x ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/push-docker.sh
   Component-test:
     runs-on: ubuntu-latest
-    env:
-      docker_username: ${{ secrets.DOCKER_USERNAME }}
-      docker_password: ${{ secrets.DOCKER_PASSWORD }}
     needs: Docker-image
     steps:
       - name: Download code

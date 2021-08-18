@@ -45,8 +45,8 @@ jobs:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
     env:
-      docker_username: SECRETS_DOCKER_USERNAME
-      docker_password: SECRETS_DOCKER_PASSWORD
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
     needs:
       - Build
       - Test
@@ -57,16 +57,19 @@ jobs:
           name: build-code
           path: .
       - name: Build Docker image
-        run: chmod +x ci/build-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
+        run: chmod +x ci/build-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/build-docker.sh
       - name: Push Docker image
-        run: chmod +x ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA"
+        run: chmod +x ci/push-docker.sh && export GIT_COMMIT="GA-$GITHUB_SHA" && ci/build-docker.sh
   Component-test:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
     env:
-      docker_username: SECRETS_DOCKER_USERNAME
-      docker_password: SECRETS_DOCKER_PASSWORD
+      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_password: ${{ secrets.DOCKER_PASSWORD }}
     needs: Docker-image
+    steps:
+      - name: Component test
+        run: chmod +x ci/component-test.sh
 
     
     

@@ -62,8 +62,8 @@ jobs:
           username: ${{ env.docker_username }}
           password: ${{ env.docker_password }}
       - name: Build Docker image
-        run: chmod +x ci/build-docker.sh
+        run: ci/build-docker.sh
       - name: Push Docker image
-        run: chmod +x ci/push-docker.sh
+        run: ci/push-docker.sh
     
     
